@@ -39,10 +39,25 @@
       "require": "./dist/cjs/fiat.cjs",
       "types": "./dist/types/fiat.d.ts"
     },
-    "./l402": {
-      "import": "./dist/esm/l402.js",
-      "require": "./dist/cjs/l402.cjs",
-      "types": "./dist/types/l402.d.ts"
+    "./402": {
+      "import": "./dist/esm/402.js",
+      "require": "./dist/cjs/402.cjs",
+      "types": "./dist/types/402.d.ts"
+    },
+    "./402/l402": {
+      "import": "./dist/esm/402/l402.js",
+      "require": "./dist/cjs/402/l402.cjs",
+      "types": "./dist/types/402/l402.d.ts"
+    },
+    "./402/x402": {
+      "import": "./dist/esm/402/x402.js",
+      "require": "./dist/cjs/402/x402.cjs",
+      "types": "./dist/types/402/x402.d.ts"
+    },
+    "./402/mpp": {
+      "import": "./dist/esm/402/mpp.js",
+      "require": "./dist/cjs/402/mpp.cjs",
+      "types": "./dist/types/402/mpp.d.ts"
     },
     "./lnurl": {
       "import": "./dist/esm/lnurl.js",
