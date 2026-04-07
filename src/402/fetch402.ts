@@ -11,10 +11,9 @@ export const fetch402 = async (
     maxAmount?: number;
   },
 ) => {
-  const wallet =
-    options.maxAmount != null
-      ? createGuardedWallet(options.wallet, options.maxAmount)
-      : options.wallet;
+  const wallet = options.maxAmount
+    ? createGuardedWallet(options.wallet, options.maxAmount)
+    : options.wallet;
   if (!fetchArgs) {
     fetchArgs = {};
   }
