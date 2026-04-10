@@ -1,6 +1,7 @@
 import fetchMock from "jest-fetch-mock";
 import { fetchWithL402 } from "./l402";
-import { parseL402, makeL402AuthenticateHeader } from "./utils";
+import { parseL402 } from "./utils";
+import { makeL402AuthenticateHeader } from "./server/utils";
 
 const MACAROON =
   "AgEEbHNhdAJCAAAClGOZrh7C569Yc7UMk8merfnMdIviyXr1qscW7VgpChNl21LkZ8Jex5QiPp+E1VaabeJDuWmlrh/j583axFpNAAIXc2VydmljZXM9cmFuZG9tbnVtYmVyOjAAAiZyYW5kb21udW1iZXJfY2FwYWJpbGl0aZVzPWFkZCxzdWJ0cmFjdAAABiAvFpzXGyc+8d/I9nMKKvAYP8w7kUlhuxS0eFN2sqmqHQ==";
@@ -28,7 +29,7 @@ describe("parseL402", () => {
   test("should correctly parse L402 string with macaroon", () => {
     const testString = `L402 macaroon="${MACAROON}", invoice="${INVOICE}"`;
     const result = parseL402(testString);
-    expect(result).toEqual({ macaroon: MACAROON, invoice: INVOICE });
+    expect(result).toEqual({ token: MACAROON, invoice: INVOICE });
   });
 
   test("should correctly parse L402 string based with token", () => {
@@ -36,7 +37,7 @@ describe("parseL402", () => {
     const result = parseL402(testString);
     expect(result).toEqual({
       version: "0",
-      macaroon: MACAROON,
+      token: MACAROON,
       invoice: INVOICE,
     });
   });
@@ -44,19 +45,19 @@ describe("parseL402", () => {
   test("should correctly parse LSAT string", () => {
     const testString = `LSAT macaroon="${MACAROON}", invoice="${INVOICE}"`;
     const result = parseL402(testString);
-    expect(result).toEqual({ macaroon: MACAROON, invoice: INVOICE });
+    expect(result).toEqual({ token: MACAROON, invoice: INVOICE });
   });
 
   test("should correctly handle unquoted values", () => {
     const testString = `L402 macaroon=${MACAROON}, invoice=${INVOICE}`;
     const result = parseL402(testString);
-    expect(result).toEqual({ macaroon: MACAROON, invoice: INVOICE });
+    expect(result).toEqual({ token: MACAROON, invoice: INVOICE });
   });
 
   test("should correctly handle single-quoted values", () => {
     const testString = `LSAT macaroon='${MACAROON}', invoice='${INVOICE}'`;
     const result = parseL402(testString);
-    expect(result).toEqual({ macaroon: MACAROON, invoice: INVOICE });
+    expect(result).toEqual({ token: MACAROON, invoice: INVOICE });
   });
 });
 
@@ -86,7 +87,7 @@ describe("fetchWithL402", () => {
       status: 402,
       headers: {
         "www-authenticate": makeL402AuthenticateHeader({
-          macaroon: MACAROON,
+          token: MACAROON,
           invoice: INVOICE,
         }),
       },
@@ -122,7 +123,7 @@ describe("fetchWithL402", () => {
       status: 402,
       headers: {
         "www-authenticate": makeL402AuthenticateHeader({
-          macaroon: MACAROON,
+          token: MACAROON,
           invoice: INVOICE,
         }),
       },
@@ -141,7 +142,7 @@ describe("fetchWithL402", () => {
       status: 402,
       headers: {
         "www-authenticate": makeL402AuthenticateHeader({
-          macaroon: MACAROON,
+          token: MACAROON,
           invoice: INVOICE,
         }),
       },

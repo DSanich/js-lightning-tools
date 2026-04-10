@@ -1,3 +1,5 @@
+import { sha256 } from "@noble/hashes/sha256";
+import { bytesToHex } from "@noble/hashes/utils";
 import { decode } from "light-bolt11-decoder";
 
 // from https://stackoverflow.com/a/50868276
@@ -82,3 +84,17 @@ export const decodeInvoice = (
     return null;
   }
 };
+
+export function validatePreimage(
+  preimage: string,
+  paymentHash: string,
+): boolean {
+  try {
+    if (!/^[0-9a-fA-F]{64}$/.test(preimage)) return false;
+    if (!/^[0-9a-fA-F]{64}$/.test(paymentHash)) return false;
+    const preimageHash = bytesToHex(sha256(fromHexString(preimage)));
+    return paymentHash === preimageHash;
+  } catch {
+    return false;
+  }
+}
