@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import fetchMock from 'jest-fetch-mock'
-import { Invoice } from '../src/bolt11'
+import { Invoice } from '@getalby/lightning-tools/bolt11'
 
 const fixtureDir = join(process.cwd(), 'e2e', 'fixtures')
 const fixtureJson = (name: string) =>

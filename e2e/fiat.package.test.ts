@@ -1,7 +1,10 @@
 import { readFileSync } from 'fs'
 import { join } from 'path'
 import fetchMock from 'jest-fetch-mock'
-import { getFiatCurrencies, getSatoshiValue } from '../src/fiat/fiat'
+import {
+  getFiatCurrencies,
+  getSatoshiValue
+} from '@getalby/lightning-tools/fiat'
 
 const fixtureDir = join(process.cwd(), 'e2e', 'fixtures')
 const fixture = (name: string) => readFileSync(join(fixtureDir, name), 'utf-8')

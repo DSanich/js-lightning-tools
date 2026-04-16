@@ -2,7 +2,7 @@ import { readFileSync } from 'fs'
 import { join } from 'path'
 import fetchMock from 'jest-fetch-mock'
 import type { Event } from '../src/lnurl/types'
-import { LightningAddress } from '../src/lnurl'
+import { LightningAddress } from '@getalby/lightning-tools/lnurl'
 
 const fixtureDir = join(process.cwd(), 'e2e', 'fixtures')
 const fixture = (name: string) => readFileSync(join(fixtureDir, name), 'utf-8')

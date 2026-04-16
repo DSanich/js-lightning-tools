@@ -1,6 +1,6 @@
 import fetchMock from 'jest-fetch-mock'
-import { fetch402 } from '../src/402/fetch402'
-import { makeL402AuthenticateHeader } from '../src/402/l402/server/utils'
+import { fetch402 } from '@getalby/lightning-tools/402'
+import { makeL402AuthenticateHeader } from '@getalby/lightning-tools/402/l402'
 import {
   encodeMppChargeRequest,
   makeMppWwwAuthenticateHeader,

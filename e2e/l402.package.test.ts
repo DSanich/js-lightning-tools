@@ -1,6 +1,8 @@
 import fetchMock from 'jest-fetch-mock'
-import { fetchWithL402 } from '../src/402/l402/l402'
-import { makeL402AuthenticateHeader } from '../src/402/l402/server/utils'
+import {
+  fetchWithL402,
+  makeL402AuthenticateHeader
+} from '@getalby/lightning-tools/402/l402'
 
 const MACAROON =
   'AgEEbHNhdAJCAAAClGOZrh7C569Yc7UMk8merfnMdIviyXr1qscW7VgpChNl21LkZ8Jex5QiPp+E1VaabeJDuWmlrh/j583axFpNAAIXc2VydmljZXM9cmFuZG9tbnVtYmVyOjAAAiZyYW5kb21udW1iZXJfY2FwYWJpbGl0aZVzPWFkZCxzdWJ0cmFjdAAABiAvFpzXGyc+8d/I9nMKKvAYP8w7kUlhuxS0eFN2sqmqHQ=='

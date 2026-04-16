@@ -1,5 +1,5 @@
 import fetchMock from 'jest-fetch-mock'
-import { fetchWithMpp } from '../src/402/mpp/mpp'
+import { fetchWithMpp } from '@getalby/lightning-tools/402/mpp'
 import {
   encodeMppChargeRequest,
   makeMppWwwAuthenticateHeader,

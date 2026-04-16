@@ -1,4 +1,4 @@
-import { sendBoostagram } from '../src/podcasting2'
+import { sendBoostagram } from '@getalby/lightning-tools/podcasting'
 
 describe('e2e: sendBoostagram (package import)', () => {
   test('calls WebLN keysend with boostagram record', async () => {

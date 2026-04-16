@@ -1,4 +1,4 @@
-import * as pkg from '../src/index'
+import * as pkg from '@getalby/lightning-tools'
 
 describe('e2e: package barrel (index)', () => {
   test('exports expected public surface', () => {
