@@ -168,4 +168,69 @@ describe('e2e: LightningAddress without proxy (package import)', () => {
     expect(params.amount).toBe(21)
     expect(params.customRecords['7629169']).toContain('value_msat')
   })
+
+  test('zap pays invoice via WebLN sendPayment', async () => {
+    const nostrPk =
+      '4657dfe8965be8980a93072bcfb5e59a65124406db0f819215ee78ba47934b3e'
+    const mockNostr = {
+      getPublicKey: jest.fn().mockResolvedValue(nostrPk),
+      signEvent: jest.fn().mockImplementation(async (ev: Event) => ({
+        ...ev,
+        sig: '0'.repeat(128)
+      }))
+    }
+    const sendPayment = jest
+      .fn()
+      .mockResolvedValue({ preimage: 'ab'.repeat(32) })
+    const webln = {
+      enable: jest.fn().mockResolvedValue(undefined),
+      sendPayment
+    }
+
+    fetchMock.mockImplementation((input) => {
+      const url = requestUrl(input)
+      if (url.includes('/.well-known/lnurlp/')) {
+        return Promise.resolve(
+          new Response(fixture('lnurlp-pay-request.json'), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          })
+        )
+      }
+      if (url.includes('/.well-known/keysend/')) {
+        return Promise.resolve(new Response(null, { status: 404 }))
+      }
+      if (url.includes('nostr.json')) {
+        return Promise.resolve(
+          new Response(fixture('nostr-well-known.json'), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          })
+        )
+      }
+      if (url.includes('/lnurlp/hello/callback')) {
+        return Promise.resolve(
+          new Response(fixture('lnurlp-callback-invoice.json'), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+          })
+        )
+      }
+      return Promise.resolve(new Response('unexpected url', { status: 500 }))
+    })
+
+    const ln = new LightningAddress('hello@getalby.com', {
+      proxy: false,
+      webln: webln as never
+    })
+    await ln.fetch()
+
+    await ln.zap(
+      { satoshi: 1, relays: ['wss://relay.example.com'] },
+      { nostr: mockNostr }
+    )
+
+    expect(webln.enable).toHaveBeenCalled()
+    expect(sendPayment).toHaveBeenCalledWith(expect.stringMatching(/^lnbc/))
+  })
 })
